@@ -12,6 +12,7 @@ import { PromocoesModule } from './promocoes/promocoes.module';
 import { DepoimentosModule } from './depoimentos/depoimentos.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
+import { PagamentoModule } from './pagamento/pagamento.module';
 
 @Module({
   imports: [
@@ -27,6 +28,7 @@ import { UsersModule } from './users/users.module';
     DepoimentosModule,
     AuthModule,
     UsersModule,
+    PagamentoModule,
   ],
   providers: [AppService],
 })
