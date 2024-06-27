@@ -13,6 +13,8 @@ import { DepoimentosModule } from './depoimentos/depoimentos.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { PagamentoModule } from './pagamento/pagamento.module';
+import { ReservaController } from './reserva/reserva.controller';
+import { ReservaModule } from './reserva/reserva.module';
 
 @Module({
   imports: [
@@ -29,8 +31,10 @@ import { PagamentoModule } from './pagamento/pagamento.module';
     AuthModule,
     UsersModule,
     PagamentoModule,
+    ReservaModule,
   ],
   providers: [AppService],
+  controllers: [ReservaController],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {}
