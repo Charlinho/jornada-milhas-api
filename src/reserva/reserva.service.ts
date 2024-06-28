@@ -24,9 +24,13 @@ export class ReservaService {
   create(reservaDto: ReservaDto, user: User) {
     const reserva = {
       ...reservaDto,
-      user: null,
+      user: user,
     };
 
     return this.repository.save(reserva);
+  }
+
+  async removerPedido(id: number): Promise<void> {
+    await this.repository.delete(id);
   }
 }

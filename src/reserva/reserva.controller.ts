@@ -1,4 +1,12 @@
-import { Body, Controller, Post, Req } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Param,
+  Post,
+  Req,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ReservaDto } from './dto/reserva.dto';
 import { ReservaService } from './reserva.service';
@@ -28,7 +36,6 @@ export class ReservaController {
       const decoded = this.jwtService.verify(token, {
         secret: jwtConstants.secret,
       });
-      console.log('Dados do Token:', decoded);
 
       const user: User = await this.usersService.findOne(decoded.email);
 
@@ -40,5 +47,33 @@ export class ReservaController {
     } catch (error) {
       throw new Error('Token JWT inválido ou expirado.');
     }
+  }
+
+  @Get('/pedidos')
+  async getReservasByEmail(@Req() request: any): Promise<ReservaDto[]> {
+    const token = request.headers.authorization?.split(' ')[1];
+    if (!token) {
+      throw new Error('Token JWT não fornecido.');
+    }
+
+    try {
+      const decoded = this.jwtService.verify(token, {
+        secret: jwtConstants.secret,
+      });
+
+      const user: User = await this.usersService.findOne(decoded.email);
+      const reservas = await this.reservaService.findReservasByEmail(
+        user.email,
+      );
+
+      return reservas;
+    } catch (error) {
+      throw new Error('Token JWT inválido ou expirado.');
+    }
+  }
+
+  @Delete('/pedidos/:id')
+  async removerPedido(@Param('id') id: number): Promise<void> {
+    return this.reservaService.removerPedido(id);
   }
 }
